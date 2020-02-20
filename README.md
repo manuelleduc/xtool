@@ -6,7 +6,7 @@ Provide a set of tools to manage local XWiki installations
 
 ### On Debian
 
-* `python3`
+* `python3.8`
 * `python3-virtualenv`
 * `virtualenv`
 
@@ -17,7 +17,7 @@ Provide a set of tools to manage local XWiki installations
    * Add `export PATH="$HOME/.xtool:$PATH"` to your `.*rc`
    * Create a symlink from the main XTool executable `~/.xtool/x` in a `~/.local/bin`: `ln -s ~/.xtool/x ~/.local/bin`. Note that you need to have `~/.local/bin` in your `$PATH` for this method to work.
 1. Set up XTool virtual environment : 
-   * `cd ~/.xtool/xtool && virtualenv -p $(which python3) venv`
+   * `cd ~/.xtool/xtool && virtualenv -p $(which python3.8) venv`
    * `source venv/bin/activate`
    * `pip install -r xtool/requirements.txt`
 
