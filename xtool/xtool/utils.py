@@ -129,6 +129,7 @@ def parse_args():
         help='the name of the instance or version (if --temp) to start'
     )
     startParser.add_argument('-d', '--debug', action='store_true', help='toggle debug mode')
+    startParser.add_argument('-p', '--port', help='the listening port', default=8080)
     startParser.add_argument(
         '-t', '--temp',
         action='store_true',

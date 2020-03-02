@@ -103,13 +103,13 @@ class InstanceManager:
         else:
             self.logger.error('The instance name [{}] is invalid'.format(instanceName))
 
-    def __startInstance(self, instanceName, debug=False):
+    def __startInstance(self, instanceName, debug=False, port=8080):
         startScript = 'start_xwiki_debug.sh' if debug else 'start_xwiki.sh'
 
         # Check if the instance exists
         instancePath = self.getInstancePath(instanceName)
         if os.path.isdir(instancePath):
-            with subprocess.Popen(['{}/./{}'.format(instancePath, startScript)]) as instanceProcess:
+            with subprocess.Popen(['{}/./{}'.format(instancePath, startScript), '-p', port]) as instanceProcess:
                 try:
                     while instanceProcess.poll() is None:
                         time.sleep(5)
@@ -133,21 +133,21 @@ class InstanceManager:
         else:
             self.logger.error('The instance [{}] folder does not exists.'.format(instanceName))
 
-    def start(self, entityName, debug=False, temp=False):
+    def start(self, entityName, debug=False, temp=False, port=8080):
         # In case debug mode is forced by the config, force it
         debug = debug or self.configManager.get('debug')
         self.logger.debug('Instance debug mode : [{}]'.format(debug))
 
         # Check if the instance name exists
         if entityName in [i['name'] for i in self.configManager.instances()]:
-            self.__startInstance(entityName, debug)
+            self.__startInstance(entityName, debug, port)
         else:
             # Check that the entityName is a version
             if entityName in self.configManager.versions():
                 # Generate a temporary instance id
                 instanceName = 'xtool-{}'.format(random_chars(4))
                 self.create(instanceName, entityName)
-                self.__startInstance(instanceName, debug)
+                self.__startInstance(instanceName, debug, port)
                 if temp:
                     self.remove(instanceName)
             else:
